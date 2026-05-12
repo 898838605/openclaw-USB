@@ -1,0 +1,16 @@
+name: Check CRLF
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Ensure batch files use CRLF
+        run: |
+          for f in $(find . -name "*.bat" -o -name "*.cmd"); do
+            if file "$f" | grep -q "CRLF"; then
+              echo "✓ $f"
+            else
+              echo "✗ $f missing CRLF" && exit 1
+            fi
+          done
