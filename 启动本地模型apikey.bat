@@ -4,11 +4,16 @@ title Llama.cpp Vulkan API Server
 setlocal EnableDelayedExpansion
 
 :: ============================================
-:: 配置路径
+:: 配置路径（相对路径）
 :: ============================================
-set "EXE_DIR=Z:\llama-vulkan"
-set "MODEL_DIR=Z:\models"
+set "EXE_DIR=%~dp0llama-vulkan"
+set "MODEL_DIR=%~dp0models"
 set "SERVER_EXE=%EXE_DIR%\llama-server.exe"
+
+echo  脚本所在目录: %~dp0
+echo  EXE_DIR: %EXE_DIR%
+echo  MODEL_DIR: %MODEL_DIR%
+echo  SERVER_EXE: %SERVER_EXE%
 
 :: 检查程序是否存在
 if not exist "%SERVER_EXE%" (
@@ -17,6 +22,8 @@ if not exist "%SERVER_EXE%" (
     pause
     exit /b 1
 )
+
+echo  llama-server.exe 已找到，继续执行...
 
 :: ============================================
 :: 1. 选择模型
