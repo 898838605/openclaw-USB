@@ -1,332 +1,205 @@
 @echo off
-chcp 936 >nul
-title OpenClaw °²×°½Å±¾
+chcp 65001 >nul 2>&1
+title OpenClaw å®‰è£…è„šæœ¬
 setlocal enabledelayedexpansion
 
 :: ==============================================
-:: ½Å±¾ËµÃ÷
-:: ±¾½Å±¾ÓÃÓÚÔÚ±¾µØ Node.js »·¾³ÏÂ°²×°/¸üĞÂ openclaw
-:: ²»ĞŞ¸ÄÏµÍ³»·¾³±äÁ¿£¬½öÁÙÊ±ĞŞ¸Äµ±Ç°»á»°µÄ PATH
-:: ==============================================
-
-:: ==============================================
-:: ¡¾ºËĞÄĞŞÕı¡¿%~dp0 Óë %CD% µÄÇø±ğ
-:: %CD%    = µ±Ç°¹¤×÷Ä¿Â¼£¨Äã´ò¿ª cmd Ê±ËùÔÚµÄÄ¿Â¼£©
-:: %~dp0   = ½Å±¾×ÔÉíËùÔÚµÄÄ¿Â¼£¨º¬Ä©Î²·´Ğ±¸Ü£©
-:: Èç¹ûÄã´ÓÆäËûÄ¿Â¼ÔËĞĞ´Ë½Å±¾£¬%CD% »áÖ¸Ïò´íÎóÎ»ÖÃ
-:: Òò´Ë±ØĞëÊ¹ÓÃ %~dp0 ²ÅÄÜ±£Ö¤Â·¾¶ÕıÈ·
+:: è·¯å¾„é…ç½®
 :: ==============================================
 set "SCRIPT_DIR=%~dp0"
-
-:: ==============================================
-:: ±¾µØ Node.js Â·¾¶ÅäÖÃ
-:: ½Å±¾¼ÙÉèÄ¿Â¼½á¹¹ÈçÏÂ£º
-::   ½Å±¾.bat
-::   ©¸©¤©¤ openclaw-USB\
-::       ©À©¤©¤ node\          <-- ±¾µØ Node.js
-::       ©¦   ©¸©¤©¤ node.exe
-::       ©¸©¤©¤ openclaw\      <-- ÏîÄ¿Ä¿Â¼
-:: ==============================================
 set "NODE_PATH=%SCRIPT_DIR%openclaw-USB\node"
 set "APP_PATH=%SCRIPT_DIR%openclaw-USB\openclaw"
 set "DATA_DIR=%SCRIPT_DIR%openclaw-USB\data"
-set "OPENCLAW_HOME=%DATA_DIR%"          
-set "OPENCLAW_STATE_DIR=%STATE_DIR%"     
+set "OPENCLAW_HOME=%DATA_DIR%"
+set "OPENCLAW_STATE_DIR=%DATA_DIR%\sessions"
 
 :: ==============================================
-:: ²½ÖèÒ»£º»·¾³Ô¤¼ì
-:: ¼ì²é±¾µØ Node.js ÊÇ·ñ´æÔÚ£¬±ÜÃâºóĞøÃüÁî±¨´í
+:: æ­¥éª¤ä¸€ï¼šç¯å¢ƒé¢„æ£€
 :: ==============================================
 if not exist "%NODE_PATH%\node.exe" (
-    echo [´íÎó] Î´ÕÒµ½±¾µØ Node.js: %NODE_PATH%\node.exe
-    echo ÇëÈ·ÈÏÄ¿Â¼½á¹¹ÕıÈ·£º
-    echo   %SCRIPT_DIR%openclaw-USB\node\node.exe
+    echo [é”™è¯¯] æœªæ‰¾åˆ°æœ¬åœ° Node.js: %NODE_PATH%\node.exe
     pause
     exit /b 1
 )
 
-:: ¼ì²éÏîÄ¿Ä¿Â¼ÊÇ·ñ´æÔÚ
 if not exist "%APP_PATH%" (
-    echo [´íÎó] Î´ÕÒµ½³ÌĞòÄ¿Â¼: %APP_PATH%
-    echo ÇëÈ·ÈÏÄ¿Â¼½á¹¹ÕıÈ·£º
-    echo   %SCRIPT_DIR%openclaw-USB\openclaw\
+    echo [é”™è¯¯] æœªæ‰¾åˆ°ç¨‹åºç›®å½•: %APP_PATH%
     pause
     exit /b 1
 )
 
 :: ==============================================
-:: ²½Öè¶ş£ºÌí¼Ó±¾µØ Node.js µ½ PATH£¨½öµ±Ç°»á»°£©
-:: ×¢Òâ£ºset ÃüÁî²»¼Ó /m ²ÎÊı£¬²»»áĞ´Èë×¢²á±í
-:: ¹Ø±Õ cmd ´°¿Úºó×Ô¶¯Ê§Ğ§£¬°²È«ÎŞ¸±×÷ÓÃ
+:: æ­¥éª¤äºŒï¼šæ·»åŠ æœ¬åœ° Node.js åˆ° PATH
 :: ==============================================
 set "PATH=%NODE_PATH%;%PATH%"
 
-:: ÑéÖ¤ node ÊÇ·ñ¿ÉÓÃ
 node --version >nul 2>&1
 if errorlevel 1 (
-    echo [´íÎó] node ÃüÁîÎŞ·¨Ö´ĞĞ£¬PATH ÅäÖÃ¿ÉÄÜÓĞÎÊÌâ
+    echo [é”™è¯¯] node å‘½ä»¤æ— æ³•æ‰§è¡Œ
     pause
     exit /b 1
 )
 
 :: ==============================================
-:: ²½ÖèÈı£ºÖ÷²Ëµ¥ ¡ª Ñ¡Ôñ²Ù×÷Ä£Ê½
+:: æ­¥éª¤ä¸‰ï¼šä¸»èœå•
 :: ==============================================
 echo.
 echo ==============================================
-echo  ÇëÑ¡Ôñ²Ù×÷Ä£Ê½£¨ÊäÈëÊı×Öºó»Ø³µ£©£º
+echo  è¯·é€‰æ‹©æ“ä½œæ¨¡å¼ï¼ˆè¾“å…¥æ•°å­—åå›è½¦ï¼‰ï¼š
 echo ==============================================
-echo   1. È«ĞÂ°²×°
-echo      £¨Ê×´Î°²×°»òÕı³£ÖØ×°£¬²»ÇåÀí»º´æ£©
-echo.
-echo   2. Çå³ı»º´æºóÖØĞÂ°²×°
-echo      £¨ÍÆ¼ö£ºÖ®Ç°°²×°±¨´íÍË³öÊ±Ê¹ÓÃ£©
-echo      ½«Ö´ĞĞ£ºnpm cache clean --force
-echo      È»ºóÖØĞÂÖ´ĞĞ npm init + npm install
-echo.
-echo   3. ¸üĞÂ openclaw
-echo      £¨ÒÑ°²×°¹ı£¬Éı¼¶µ½×îĞÂ°æ±¾£©
-echo      ½«Ö´ĞĞ£ºnpm install openclaw@latest
-echo.
-echo   0. ÍË³ö½Å±¾
+echo   1. å…¨æ–°å®‰è£…
+echo ----------------------------
+echo   2. æ¸…é™¤ç¼“å­˜åé‡æ–°å®‰è£…
+echo ----------------------------
+echo   3. æ›´æ–° openclaw
+echo ----------------------------
+echo   0. é€€å‡ºè„šæœ¬
 echo ==============================================
 echo.
-set /p INSTALL_MODE="ÇëÊäÈëÑ¡Ïî [0-3£¬Ä¬ÈÏ 1]: "
-
-:: Èç¹ûÓÃ»§Ö±½Ó»Ø³µ£¬Ä¬ÈÏÈ«ĞÂ°²×°
+set /p INSTALL_MODE="è¯·è¾“å…¥é€‰é¡¹ [0-3ï¼Œé»˜è®¤ 1]: "
 if "!INSTALL_MODE!"=="" set "INSTALL_MODE=1"
 
-:: ==============================================
-:: ´¦ÀíÓÃ»§Ñ¡Ôñ
-:: ==============================================
 if "!INSTALL_MODE!"=="0" (
-    echo [ÌáÊ¾] ÒÑÈ¡Ïû£¬°´ÈÎÒâ¼üÍË³ö...
+    echo [æç¤º] å·²å–æ¶ˆï¼ŒæŒ‰ä»»æ„é”®é€€å‡º...
     pause >nul
     exit /b 0
 ) else if "!INSTALL_MODE!"=="1" (
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÈ«ĞÂ°²×°
+    echo [æç¤º] å·²é€‰æ‹©ï¼šå…¨æ–°å®‰è£…
 ) else if "!INSTALL_MODE!"=="2" (
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÇå³ı»º´æºóÖØĞÂ°²×°
-    echo.
-    echo ==============================================
-    echo  ÕıÔÚÇ¿ÖÆÇå³ı npm »º´æ...
-    echo  Õâ»áÉ¾³ı±¾µØ npm »º´æÄ¿Â¼ÖĞµÄËùÓĞÊı¾İ
-    echo  ²»»áÓ°ÏìÒÑ°²×°µÄÈ«¾Ö°ü£¬½öÇå³ıÏÂÔØ»º´æ
-    echo ==============================================
-    echo.
+    echo [æç¤º] å·²é€‰æ‹©ï¼šæ¸…é™¤ç¼“å­˜åé‡æ–°å®‰è£…
     call npm cache clean --force
     if errorlevel 1 (
-        echo [¾¯¸æ] »º´æÇå³ıÃüÁî·µ»Ø´íÎó£¬µ«Í¨³£²»Ó°Ïì¼ÌĞø°²×°
-        echo Èç¹ûºóĞøÈÔ±¨´í£¬ÇëÊÖ¶¯É¾³ı»º´æÄ¿Â¼ºóÖØÊÔ
-        echo.
+        echo [è­¦å‘Š] ç¼“å­˜æ¸…é™¤å‘½ä»¤è¿”å›é”™è¯¯ï¼Œä½†é€šå¸¸ä¸å½±å“ç»§ç»­å®‰è£…
         pause
-    ) else (
-        echo [³É¹¦] npm »º´æÒÑÇå³ı
-        echo.
     )
 ) else if "!INSTALL_MODE!"=="3" (
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£º¸üĞÂ openclaw
+    echo [æç¤º] å·²é€‰æ‹©ï¼šæ›´æ–° openclaw
     goto :update_openclaw
 ) else (
-    echo [¾¯¸æ] ÊäÈëÎŞĞ§£¬Ä¬ÈÏÊ¹ÓÃ£ºÈ«ĞÂ°²×°
+    echo [è­¦å‘Š] è¾“å…¥æ— æ•ˆï¼Œé»˜è®¤ä½¿ç”¨ï¼šå…¨æ–°å®‰è£…
     set "INSTALL_MODE=1"
 )
 
 :: ==============================================
-:: ²½ÖèËÄ£ºÈÃÓÃ»§Ñ¡Ôñ npm ¾µÏñÔ´
-:: ¹úÄÚÍøÂç½¨ÒéÑ¡ 1~4£¬º£Íâ»òÍøÂçÁ¼ºÃ¿ÉÑ¡ 0
+:: æ­¥éª¤å››ï¼šé€‰æ‹©é•œåƒæº
 :: ==============================================
-echo.
-echo ==============================================
-echo  ÇëÑ¡Ôñ npm ¾µÏñÔ´£¨ÊäÈëÊı×Öºó»Ø³µ£©£º
-echo ==============================================
-echo   0. ¹Ù·½Ô´     https://registry.npmjs.org/
-echo   1. °¢ÀïÔÆ     https://registry.npmmirror.com
-echo   2. ÌÚÑ¶ÔÆ     https://mirrors.cloud.tencent.com/npm/
-echo   3. »ªÎªÔÆ     https://repo.huaweicloud.com/repository/npm/
-echo   4. ÖĞ¿Æ´ó     https://mirrors.ustc.edu.cn/npm/
-echo   5. Çå»ª´óÑ§   https://mirrors.tuna.tsinghua.edu.cn/npm/
-echo ==============================================
-echo.
-set /p CHOICE="ÇëÊäÈëÑ¡Ïî [0-5£¬Ä¬ÈÏ 1]: "
-
-:: Èç¹ûÓÃ»§Ö±½Ó»Ø³µ£¬Ä¬ÈÏÊ¹ÓÃ°¢ÀïÔÆ
-if "!CHOICE!"=="" set "CHOICE=1"
-
-:: ¸ù¾İÑ¡ÔñÉèÖÃ registry µØÖ·
-if "!CHOICE!"=="0" (
-    set "REGISTRY=https://registry.npmjs.org/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£º¹Ù·½Ô´£¨º£Íâ£¬ËÙ¶È¿ÉÄÜ½ÏÂı£©
-) else if "!CHOICE!"=="1" (
-    set "REGISTRY=https://registry.npmmirror.com"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£º°¢ÀïÔÆ¾µÏñ£¨ÍÆ¼ö£¬¹úÄÚËÙ¶È¿ì£©
-) else if "!CHOICE!"=="2" (
-    set "REGISTRY=https://mirrors.cloud.tencent.com/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÌÚÑ¶ÔÆ¾µÏñ
-) else if "!CHOICE!"=="3" (
-    set "REGISTRY=https://repo.huaweicloud.com/repository/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£º»ªÎªÔÆ¾µÏñ
-) else if "!CHOICE!"=="4" (
-    set "REGISTRY=https://mirrors.ustc.edu.cn/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÖĞ¿Æ´ó¾µÏñ
-) else if "!CHOICE!"=="5" (
-    set "REGISTRY=https://mirrors.tuna.tsinghua.edu.cn/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÇå»ª´óÑ§¾µÏñ
-) else (
-    echo [¾¯¸æ] ÊäÈëÎŞĞ§£¬Ê¹ÓÃÄ¬ÈÏ°¢ÀïÔÆ¾µÏñ
-    set "REGISTRY=https://registry.npmmirror.com"
-)
-echo.
+call :choose_registry
 
 :: ==============================================
-:: ²½ÖèÎå£º½øÈëÏîÄ¿Ä¿Â¼
-:: cd /d Ö§³Ö¿çÅÌ·ûÇĞ»»£¨Èç´Ó C: ÇĞµ½ D:£©
-:: || ±íÊ¾Ç°Ò»ÌõÃüÁîÊ§°ÜÊ±Ö´ĞĞºóÃæµÄ´úÂë¿é
+:: æ­¥éª¤äº”ï¼šè¿›å…¥ç›®å½•å¹¶å®‰è£…
 :: ==============================================
 cd /d "%APP_PATH%" || (
-    echo [´íÎó] ÎŞ·¨½øÈëÄ¿Â¼: %APP_PATH%
+    echo [é”™è¯¯] æ— æ³•è¿›å…¥ç›®å½•: %APP_PATH%
     pause
     exit /b 1
 )
 
-:: ==============================================
-:: ²½ÖèÁù£º³õÊ¼»¯ npm ÏîÄ¿
-:: npm init -y Éú³ÉÄ¬ÈÏµÄ package.json
-:: call ÓÃÓÚÔÚÅú´¦ÀíÖĞµ÷ÓÃÁíÒ»¸öÃüÁî£¬È·±£ errorlevel ÕıÈ··µ»Ø
-:: ==============================================
-echo ÕıÔÚ³õÊ¼»¯ÏîÄ¿...
+echo æ­£åœ¨åˆå§‹åŒ–é¡¹ç›®...
 call npm init -y
 if errorlevel 1 (
-    echo [´íÎó] npm init Ê§°Ü£¬Çë¼ì²é node »·¾³
+    echo [é”™è¯¯] npm init å¤±è´¥
     pause
     exit /b 1
 )
 
-:: ==============================================
-:: ²½ÖèÆß£º°²×° openclaw
-:: --registry Ö¸¶¨±¾´Î°²×°µÄ¾µÏñÔ´
-:: --verbose  ÏÔÊ¾ÏêÏ¸ÈÕÖ¾£¬±ãÓÚÅÅ²éÎÊÌâ
-:: ==============================================
 echo.
-echo ÕıÔÚ°²×° openclaw£¬Ê¹ÓÃ¾µÏñ£º%REGISTRY%
-echo Õâ¿ÉÄÜĞèÒª¼¸·ÖÖÓ£¬ÇëÄÍĞÄµÈ´ı...
-echo.
-call npm install openclaw@latest --registry=%REGISTRY% --verbose
+echo æ­£åœ¨å®‰è£… openclawï¼Œä½¿ç”¨é•œåƒï¼š%REGISTRY%
+call npm install openclaw@latest --registry=%REGISTRY%
 if errorlevel 1 (
-    echo.
-    echo [´íÎó] openclaw °²×°Ê§°Ü
-    echo.
-    echo ¿ÉÄÜÔ­Òò¼°½â¾ö·½°¸£º
-    echo   1. ÍøÂçÁ¬½ÓÎÊÌâ
-    echo      ¡ú ³¢ÊÔ¸ü»»ÆäËû¾µÏñÔ´ÖØĞÂÔËĞĞ½Å±¾
-    echo   2. npm »º´æËğ»µ
-    echo      ¡ú ÖØĞÂÔËĞĞ½Å±¾£¬Ñ¡Ôñ¡¾Çå³ı»º´æºóÖØĞÂ°²×°¡¿
-    echo   3. ¸Ã°üÃûÔÚ npm ÉÏ²»´æÔÚ»òÒÑ¸üÃû
-    echo      ¡ú ÇëÈ·ÈÏ°üÃû "openclaw" ÊÇ·ñÕıÈ·
-    echo   4. ±¾µØ Node.js °æ±¾²»¼æÈİ
-    echo      ¡ú Çë¼ì²é node °æ±¾ÊÇ·ñÂú×ãÒªÇó
-    echo.
+    echo [é”™è¯¯] openclaw å®‰è£…å¤±è´¥
+    pause
+    exit /b 1
+)
+
+goto :done
+
+:: ==============================================
+:: ã€æ›´æ–°åˆ†æ”¯ã€‘
+:: ==============================================
+:update_openclaw
+call :choose_registry
+
+cd /d "%APP_PATH%" || (
+    echo [é”™è¯¯] æ— æ³•è¿›å…¥ç›®å½•: %APP_PATH%
+    pause
+    exit /b 1
+)
+
+if not exist "node_modules\openclaw" (
+    echo [è­¦å‘Š] æœªæ£€æµ‹åˆ°å·²å®‰è£…çš„ openclawï¼Œå°†æ‰§è¡Œå…¨æ–°å®‰è£…...
+    call npm init -y
+    if errorlevel 1 (
+        echo [é”™è¯¯] npm init å¤±è´¥
+        pause
+        exit /b 1
+    )
+)
+
+echo.
+echo æ­£åœ¨æ›´æ–° openclaw åˆ°æœ€æ–°ç‰ˆæœ¬...
+call npm install openclaw@latest --registry=%REGISTRY%
+if errorlevel 1 (
+    echo [é”™è¯¯] openclaw æ›´æ–°å¤±è´¥
     pause
     exit /b 1
 )
 
 :: ==============================================
-:: °²×°Íê³É
+:: å®‰è£…/æ›´æ–°å®Œæˆ
 :: ==============================================
+:done
 echo.
 echo ==============================================
-echo  °²×°Íê³É£¡
+echo  æ“ä½œå®Œæˆï¼
 echo ==============================================
 echo.
-echo ÏîÄ¿Â·¾¶: %APP_PATH%
-echo Node °æ±¾:
+echo é¡¹ç›®è·¯å¾„: %APP_PATH%
+echo Node ç‰ˆæœ¬:
 node --version
 echo.
 pause
 exit /b 0
 
 :: ==============================================
-:: ¡¾¸üĞÂ·ÖÖ§¡¿Ñ¡Ïî 3£º¸üĞÂ openclaw
-:: Ìø¹ı npm init£¬Ö±½Ó½øÈëÏîÄ¿Ä¿Â¼Ö´ĞĞ¸üĞÂ
+:: ã€å­ç¨‹åºã€‘é€‰æ‹©é•œåƒæº
 :: ==============================================
-:update_openclaw
+:choose_registry
 echo.
 echo ==============================================
-echo  ÇëÑ¡Ôñ npm ¾µÏñÔ´£¨ÊäÈëÊı×Öºó»Ø³µ£©£º
+echo  è¯·é€‰æ‹© npm é•œåƒæºï¼ˆè¾“å…¥æ•°å­—åå›è½¦ï¼‰ï¼š
 echo ==============================================
-echo   0. ¹Ù·½Ô´     https://registry.npmjs.org/
-echo   1. °¢ÀïÔÆ     https://registry.npmmirror.com
-echo   2. ÌÚÑ¶ÔÆ     https://mirrors.cloud.tencent.com/npm/
-echo   3. »ªÎªÔÆ     https://repo.huaweicloud.com/repository/npm/
-echo   4. ÖĞ¿Æ´ó     https://mirrors.ustc.edu.cn/npm/
-echo   5. Çå»ª´óÑ§   https://mirrors.tuna.tsinghua.edu.cn/npm/
+echo   0. å®˜æ–¹æº     https://registry.npmjs.org/
+echo   1. é˜¿é‡Œäº‘     https://registry.npmmirror.com
+echo   2. è…¾è®¯äº‘     https://mirrors.cloud.tencent.com/npm/
+echo   3. åä¸ºäº‘     https://repo.huaweicloud.com/repository/npm/
+echo   4. ä¸­ç§‘å¤§     https://mirrors.ustc.edu.cn/npm/
+echo   5. æ¸…åå¤§å­¦   https://mirrors.tuna.tsinghua.edu.cn/npm/
 echo ==============================================
 echo.
-set /p CHOICE="ÇëÊäÈëÑ¡Ïî [0-5£¬Ä¬ÈÏ 1]: "
-
+set /p CHOICE="è¯·è¾“å…¥é€‰é¡¹ [0-5ï¼Œé»˜è®¤ 1]: "
 if "!CHOICE!"=="" set "CHOICE=1"
 
 if "!CHOICE!"=="0" (
     set "REGISTRY=https://registry.npmjs.org/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£º¹Ù·½Ô´
+    echo [æç¤º] å·²é€‰æ‹©ï¼šå®˜æ–¹æº
 ) else if "!CHOICE!"=="1" (
     set "REGISTRY=https://registry.npmmirror.com"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£º°¢ÀïÔÆ¾µÏñ
+    echo [æç¤º] å·²é€‰æ‹©ï¼šé˜¿é‡Œäº‘é•œåƒ
 ) else if "!CHOICE!"=="2" (
     set "REGISTRY=https://mirrors.cloud.tencent.com/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÌÚÑ¶ÔÆ¾µÏñ
+    echo [æç¤º] å·²é€‰æ‹©ï¼šè…¾è®¯äº‘é•œåƒ
 ) else if "!CHOICE!"=="3" (
     set "REGISTRY=https://repo.huaweicloud.com/repository/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£º»ªÎªÔÆ¾µÏñ
+    echo [æç¤º] å·²é€‰æ‹©ï¼šåä¸ºäº‘é•œåƒ
 ) else if "!CHOICE!"=="4" (
     set "REGISTRY=https://mirrors.ustc.edu.cn/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÖĞ¿Æ´ó¾µÏñ
+    echo [æç¤º] å·²é€‰æ‹©ï¼šä¸­ç§‘å¤§é•œåƒ
 ) else if "!CHOICE!"=="5" (
     set "REGISTRY=https://mirrors.tuna.tsinghua.edu.cn/npm/"
-    echo [ÌáÊ¾] ÒÑÑ¡Ôñ£ºÇå»ª´óÑ§¾µÏñ
+    echo [æç¤º] å·²é€‰æ‹©ï¼šæ¸…åå¤§å­¦é•œåƒ
 ) else (
-    echo [¾¯¸æ] ÊäÈëÎŞĞ§£¬Ê¹ÓÃÄ¬ÈÏ°¢ÀïÔÆ¾µÏñ
+    echo [è­¦å‘Š] è¾“å…¥æ— æ•ˆï¼Œä½¿ç”¨é»˜è®¤é˜¿é‡Œäº‘é•œåƒ
     set "REGISTRY=https://registry.npmmirror.com"
 )
 echo.
-
-:: ½øÈëÏîÄ¿Ä¿Â¼
-cd /d "%APP_PATH%" || (
-    echo [´íÎó] ÎŞ·¨½øÈëÄ¿Â¼: %APP_PATH%
-    pause
-    exit /b 1
-)
-
-:: ¼ì²éÊÇ·ñÒÑ°²×°
-if not exist "node_modules\openclaw" (
-    echo [¾¯¸æ] Î´¼ì²âµ½ÒÑ°²×°µÄ openclaw
-    echo ½«Ö´ĞĞÈ«ĞÂ°²×°...
-    call npm init -y
-)
-
-:: Ö´ĞĞ¸üĞÂ
-echo.
-echo ÕıÔÚ¸üĞÂ openclaw µ½×îĞÂ°æ±¾...
-echo Ê¹ÓÃ¾µÏñ£º%REGISTRY%
-echo.
-call npm install openclaw@latest --registry=%REGISTRY% --verbose
-if errorlevel 1 (
-    echo.
-    echo [´íÎó] openclaw ¸üĞÂÊ§°Ü
-    echo ¿ÉÄÜÔ­Òò£ºÍøÂçÎÊÌâ¡¢¾µÏñÔ´²»¿ÉÓÃ¡¢»ò npm »º´æËğ»µ
-    echo ½¨Òé£º³¢ÊÔÑ¡Ôñ¡¾Çå³ı»º´æºóÖØĞÂ°²×°¡¿Ä£Ê½
-    pause
-    exit /b 1
-)
-
-echo.
-echo ==============================================
-echo  ¸üĞÂÍê³É£¡
-echo ==============================================
-echo.
-echo ÏîÄ¿Â·¾¶: %APP_PATH%
-echo Node °æ±¾:
-node --version
-echo.
-pause
-exit /b 0
+goto :eof

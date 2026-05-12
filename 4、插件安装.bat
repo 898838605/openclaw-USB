@@ -79,18 +79,18 @@ echo   Node 版本:
 node --version
 echo.
 echo   openclaw 命令已就绪，可直接输入：
-echo     openclaw -v              	查看版本
-echo     openclaw --help          	查看帮助
-echo     openclaw onboard         	运行设置向导
-echo     openclaw doctor          	诊断修复
-echo     openclaw plugins list    	列出插件
-echo     openclaw plugins install 	插件名   安装插件
-echo     openclaw plugins remove  	插件名   移除插件
-echo     openclaw models list     	查看可用模型
-echo     openclaw config get agents.defaults.model.primary  查看当前模型
+echo     openclaw -v              	         查看版本
+echo     openclaw --help          	         查看帮助
+echo     openclaw onboard         	         运行设置向导
+echo     openclaw doctor          	         诊断修复
+echo     openclaw plugins list    	         列出插件
+echo     openclaw plugins install 《插件名》 安装插件
+echo     openclaw plugins remove  《插件名》 移除插件
+echo     openclaw models list     	         查看可用模型
+echo     openclaw skills list     	         列出已安装技能
+echo     openclaw config get agents.defaults.model.primary                  查看当前模型
 echo     openclaw config set agents.defaults.model.primary 《目标模型ID》   永久切换模型
-echo     openclaw skills list     	列出已安装技能
-echo     openclaw skills install(config\update) 《skill-name》 安装技能
+echo     openclaw skills install(config\update) 《skill-name》              安装更新技能
 echo.
 echo   其他常用命令：
 echo     npm install 包名         安装 npm 包
