@@ -2,9 +2,10 @@
   "id": "tests/vitest",
   "family": "test-results",
   "description": "Compact Vitest output while preserving failures and summary lines.",
+  "priority": 1,
   "match": {
     "toolNames": ["exec"],
-    "commandIncludes": ["vitest"]
+    "commandIncludesAny": ["vitest", "run-vitest.mjs"]
   },
   "transforms": {
     "stripAnsi": true,

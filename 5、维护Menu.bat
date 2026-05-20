@@ -3,6 +3,13 @@ setlocal EnableDelayedExpansion
 chcp 936 >nul
 title OpenClaw-USB 维护工具
 
+:: 检测管理员权限
+fltmc >nul 2>&1 || (
+    echo 请【以管理员身份运行】此脚本！
+    pause
+    exit
+)
+
 :: ==============================================
 :: 脚本说明
 :: 维护 + 高级功能菜单（对应选项 0~12）

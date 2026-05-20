@@ -3,6 +3,13 @@ chcp 936 >nul
 title AI模型跳转工具
 color 0A
 
+:: 检测管理员权限
+fltmc >nul 2>&1 || (
+    echo 请【以管理员身份运行】此脚本！
+    pause
+    exit
+)
+
 :main
 cls
 echo ==========================================

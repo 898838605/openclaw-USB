@@ -4,6 +4,12 @@ chcp 65001 >nul 2>&1
 :: 解决中文乱码问题
 title OpenClaw-USB 目录创建工具
 
+:: 检测管理员权限
+fltmc >nul 2>&1 || (
+    echo 请【以管理员身份运行】此脚本！
+    pause
+    exit
+)
 :: 标记是否创建了任何新目录
 set "created="
 

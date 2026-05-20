@@ -3,6 +3,13 @@ chcp 65001 >nul
 title Llama.cpp Vulkan API Server
 setlocal EnableDelayedExpansion
 
+:: 检测管理员权限
+fltmc >nul 2>&1 || (
+    echo 请【以管理员身份运行】此脚本！
+    pause
+    exit
+)
+
 :: ============================================
 :: 配置路径（相对路径）
 :: ============================================

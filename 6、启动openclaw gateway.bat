@@ -3,6 +3,13 @@ chcp 936 >nul
 title OpenClaw Gateway 启动器
 setlocal EnableDelayedExpansion
 
+:: 检测管理员权限
+fltmc >nul 2>&1 || (
+    echo 请【以管理员身份运行】此脚本！
+    pause
+    exit
+)
+
 :: ==============================================
 :: 脚本说明
 :: 启动 OpenClaw Gateway 服务
